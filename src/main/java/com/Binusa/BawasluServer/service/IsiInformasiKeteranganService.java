@@ -34,6 +34,7 @@ public class IsiInformasiKeteranganService {
 
     public IsiInformasiKeteranganApiResponseDTO save(IsiInformasiKeteranganDTO isiInformasiKeteranganDTO) {
         IsiInformasiKeterangan isiInformasiKeterangan = new IsiInformasiKeterangan();
+        isiInformasiKeterangan.setId(1L);
         isiInformasiKeterangan.setDokumen(isiInformasiKeteranganDTO.getDokumen());
 
         JenisKeterangan jenisKeterangan = jenisKeteranganRepository.findById(isiInformasiKeteranganDTO.getJenisKeteranganId())
