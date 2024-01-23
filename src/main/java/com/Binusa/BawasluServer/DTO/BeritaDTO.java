@@ -2,16 +2,16 @@ package com.Binusa.BawasluServer.DTO;
 
 public class BeritaDTO {
 
-    private long id;
+    private Long id;
     private String judulBerita;
     private String author;
     private String isiBerita;
     private Long categoryId;
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
