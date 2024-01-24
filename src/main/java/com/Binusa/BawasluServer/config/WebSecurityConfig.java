@@ -124,6 +124,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/bawaslu/api/carousel/ById/{id}",
             "/bawaslu/api/carousel/all",
             "/bawaslu/api/carousel/terbaru",
+            // Library
+            "/bawaslu/api/library/ById/{id}",
+            "/bawaslu/api/library/all",
     };
 
     private static final String[] AUTH_AUTHORIZATION = {
@@ -143,6 +146,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/bawaslu/api/tabel-dip/**",
             "/bawaslu/api/tabel-sop/**",
             "/bawaslu/api/carousel/**",
+            "/bawaslu/api/library/**",
     };
 
     @Override
