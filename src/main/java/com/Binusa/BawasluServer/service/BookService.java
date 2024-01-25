@@ -31,12 +31,16 @@ public class BookService {
 
         if (existingBook.isPresent()) {
             Book bookToUpdate = existingBook.get();
-            bookToUpdate.setName(updatedBook.getName());
-            bookToUpdate.setPhotoUrl(updatedBook.getPhotoUrl());
+            if (updatedBook.getName() != null) {
+                bookToUpdate.setName(updatedBook.getName());
+            }
+            if (updatedBook.getPhotoUrl() != null) {
+                bookToUpdate.setPhotoUrl(updatedBook.getPhotoUrl());
+            }
 
             return bookRepository.save(bookToUpdate);
         } else {
-            throw new NoSuchElementException("Book not found with id: " + id);
+            throw new NoSuchElementException("Buku tidak ditemukan dengan id: " + id);
         }
     }
 
