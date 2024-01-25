@@ -1,5 +1,6 @@
 package com.Binusa.BawasluServer.controller;
 
+import com.Binusa.BawasluServer.DTO.BookDto;
 import com.Binusa.BawasluServer.model.Book;
 import com.Binusa.BawasluServer.response.CustomResponse;
 import com.Binusa.BawasluServer.service.BookService;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -50,40 +52,34 @@ public class LibraryController {
 
         return ResponseEntity.ok(response);
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<CustomResponse<Book>> updateBook(@PathVariable Long id, @RequestBody Book updatedBook) {
+    public ResponseEntity<CustomResponse<Book>> updateBook(@PathVariable Long id, @RequestBody BookDto updatedBookDto) {
         CustomResponse<Book> response = new CustomResponse<>();
         try {
-            Optional<Book> existingBook = bookService.getBookById(id);
-            if (existingBook.isPresent()) {
-                // Update the existing book with new data
-                Book savedBook = bookService.addBook(updatedBook);
-
-                response.setStatus("success");
-                response.setCode(200);
-                response.setData(savedBook);
-                response.setMessage("sukses merubah data buku");
-            } else {
-                response.setStatus("error");
-                response.setCode(404);
-                response.setMessage("Book not found");
-            }
+            Book updatedBook = bookService.updateBook(id, convertDtoToEntity(updatedBookDto));
+            response.setStatus("success");
+            response.setCode(200);
+            response.setData(updatedBook);
+            response.setMessage("Sukses Memperbarui Data Buku id" + id);
+        } catch (NoSuchElementException e) {
+            response.setStatus("error");
+            response.setCode(404);
+            response.setMessage(e.getMessage());
         } catch (Exception e) {
             response.setStatus("error");
             response.setCode(400);
-            response.setMessage("Error updating book: " + e.getMessage());
+            response.setMessage("Error memperbarui buku: " + e.getMessage());
         }
 
         return ResponseEntity.ok(response);
     }
 
-
-
     @PostMapping("/add")
-    public ResponseEntity<CustomResponse<Book>> addBook(@RequestBody Book book) {
+    public ResponseEntity<CustomResponse<Book>> addBook(@RequestBody BookDto bookDto) {
         CustomResponse<Book> response = new CustomResponse<>();
         try {
-            Book addedBook = bookService.addBook(book);
+            Book addedBook = bookService.addBook(convertDtoToEntity(bookDto));
             response.setStatus("success");
             response.setCode(200);
             response.setData(addedBook);
@@ -116,5 +112,13 @@ public class LibraryController {
         }
 
         return ResponseEntity.ok(response);
+    }
+
+    // Metode konversi DTO ke Entity
+    private Book convertDtoToEntity(BookDto bookDto) {
+        Book book = new Book();
+        book.setName(bookDto.getName());
+        book.setPhotoUrl(bookDto.getPhotoUrl());
+        return book;
     }
 }
